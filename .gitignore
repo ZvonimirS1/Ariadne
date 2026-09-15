@@ -1,0 +1,16 @@
+# Environment / secrets
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Data - never commit raw datasets here, especially anything MIMIC-IV derived.
+/data/
+*.csv
+*.db
+
+# OS / editor noise
+.DS_Store
+.vscode/
+.idea/
