@@ -1,0 +1,119 @@
+# Ground truth for Module 1 (Literature Synthesis).
+#
+# Each question is one where a published systematic review, meta-analysis, or
+# major guideline already states the consensus, so the agent's extracted
+# findings can be compared against a known answer.
+#
+# HONESTY NOTE on `known_pmids`: these are left empty on purpose. Retrieval
+# recall is only a meaningful metric against PMIDs that a human has actually
+# verified point at the right paper. Populating them from memory - or from an
+# automated search - would mean scoring the system against citations nobody
+# checked, in a project whose entire premise is not doing that. Fill them in
+# by hand as you verify each one; `retrieval_recall` is skipped for any
+# question where the list is empty, and reported for the rest.
+#
+# Fields:
+#   id                  stable identifier, used in result tables
+#   question            what gets asked
+#   search_query        PubMed-shaped query (natural questions search poorly)
+#   expected_direction  increase | decrease | no_effect | unclear
+#   expect_contradiction  whether the literature genuinely disagrees here
+#   consensus           what the consensus says, in one line
+#   consensus_source    the review/guideline that states it (for the writeup)
+#   known_pmids         hand-verified PMIDs - see note above
+
+questions:
+  - id: smoking-lung-cancer
+    question: Does cigarette smoking increase the risk of lung cancer?
+    search_query: cigarette smoking lung cancer risk cohort
+    expected_direction: increase
+    expect_contradiction: false
+    consensus: >-
+      Smoking is causally associated with a large increase in lung cancer risk;
+      one of the most firmly established findings in epidemiology.
+    consensus_source: IARC Monographs Vol. 100E; US Surgeon General's Report
+    known_pmids: []
+
+  - id: folic-acid-ntd
+    question: Does periconceptional folic acid supplementation reduce neural tube defects?
+    search_query: folic acid supplementation neural tube defects prevention trial
+    expected_direction: decrease
+    expect_contradiction: false
+    consensus: >-
+      Periconceptional folic acid substantially reduces the risk of neural tube
+      defects. Basis for mandatory food fortification in many countries.
+    consensus_source: Cochrane review, De-Regil et al.; MRC Vitamin Study
+    known_pmids: []
+
+  - id: statins-cv-events
+    question: Do statins reduce major cardiovascular events?
+    search_query: statin therapy major cardiovascular events meta-analysis
+    expected_direction: decrease
+    expect_contradiction: false
+    consensus: >-
+      Statins reduce major vascular events roughly proportionally to the
+      absolute LDL-C reduction achieved.
+    consensus_source: Cholesterol Treatment Trialists' Collaboration meta-analyses
+    known_pmids: []
+
+  - id: metformin-hba1c
+    question: Does metformin improve glycemic control in type 2 diabetes?
+    search_query: metformin HbA1c glycemic control type 2 diabetes randomized
+    expected_direction: decrease
+    expect_contradiction: false
+    consensus: >-
+      Metformin lowers HbA1c relative to placebo and is recommended as
+      first-line pharmacotherapy for type 2 diabetes.
+    consensus_source: ADA Standards of Care; Cochrane review
+    known_pmids: []
+
+  - id: ace-inhibitors-nephropathy
+    question: Do ACE inhibitors slow progression of diabetic nephropathy?
+    search_query: ACE inhibitor diabetic nephropathy progression randomized trial
+    expected_direction: decrease
+    expect_contradiction: false
+    consensus: >-
+      ACE inhibitors slow progression of diabetic kidney disease, with benefit
+      beyond blood-pressure lowering alone.
+    consensus_source: KDIGO guidelines; Lewis et al. captopril trial
+    known_pmids: []
+
+  # --- The harder half: where the literature genuinely disagrees. ---
+  # These exist to test whether contradiction detection distinguishes real
+  # disagreement from noisy extraction. A system that reports clean consensus
+  # on all eight questions is not doing its job.
+
+  - id: aspirin-primary-prevention
+    question: Should aspirin be used for primary prevention of cardiovascular disease?
+    search_query: aspirin primary prevention cardiovascular events bleeding randomized
+    expected_direction: decrease
+    expect_contradiction: true
+    consensus: >-
+      Aspirin reduces cardiovascular events but increases major bleeding; net
+      benefit is marginal and guidance has shifted away from routine use.
+      Papers legitimately point in opposite directions depending on outcome.
+    consensus_source: USPSTF 2022 recommendation; ASPREE, ARRIVE, ASCEND trials
+    known_pmids: []
+
+  - id: vitamin-d-fractures
+    question: Does vitamin D supplementation prevent fractures in older adults?
+    search_query: vitamin D supplementation fracture prevention older adults randomized
+    expected_direction: no_effect
+    expect_contradiction: true
+    consensus: >-
+      Vitamin D alone does not meaningfully reduce fractures in
+      community-dwelling adults; earlier positive trials conflict with larger
+      later ones such as VITAL.
+    consensus_source: VITAL trial; Cochrane review; USPSTF
+    known_pmids: []
+
+  - id: antibiotics-acute-bronchitis
+    question: Do antibiotics help otherwise healthy adults with acute bronchitis?
+    search_query: antibiotics acute bronchitis healthy adults randomized trial
+    expected_direction: no_effect
+    expect_contradiction: false
+    consensus: >-
+      Antibiotics provide little to no clinically meaningful benefit in acute
+      bronchitis in otherwise healthy adults, and cause harms.
+    consensus_source: Cochrane review, Smith et al.
+    known_pmids: []

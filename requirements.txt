@@ -1,3 +1,18 @@
 requests>=2.31
 pydantic>=2.0
 python-dotenv>=1.0
+
+# LLM layer - orchestrator tool-calling loop and structured extraction.
+anthropic>=1.6
+
+# Grounding: fuzzy fallback when an evidence quote is near-verbatim but not exact.
+rapidfuzz>=3.14
+
+# Eval datasets are YAML so they stay readable and diffable in review.
+PyYAML>=6.0
+
+pytest>=9.1
+
+# Deferred until the modules that need them:
+#   networkx  - Module 2 (drug repurposing), week 6
+#   streamlit - demo UI, week 12

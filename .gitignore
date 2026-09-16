@@ -10,6 +10,10 @@ __pycache__/
 *.csv
 *.db
 
+# Test / tooling caches
+.pytest_cache/
+.ruff_cache/
+
 # OS / editor noise
 .DS_Store
 .vscode/
